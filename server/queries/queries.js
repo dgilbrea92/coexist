@@ -32,34 +32,34 @@ export default queries = {
   deleteSticky,
 };
 
-// sample of data being returned to
-const state = {
-  stickies: [
-    {
-      stickyId: 1,
-      name: 'ToDoList',
-      items: [
-        {
-          itemId: 1,
-          content: 'tessssst',
-          additional: '',
-          complete: false,
-        },
-        { itemId: 2, content: 'tessssst2', complete: false },
-      ],
-    },
-    {
-      stickyId: 2,
-      name: 'GroceryList',
-      items: [
-        {
-          itemId: 1,
-          content: 'tessssst',
-          additional: '',
-          complete: false,
-        },
-        { itemId: 2, content: 'tessssst2', complete: false },
-      ],
-    },
-  ],
-};
+// structure of data being returned to front end
+// const state = {
+//   stickies: [
+//     {
+//       stickyId: 1,
+//       name: 'ToDoList',
+//       items: [
+//         {
+//           itemId: 1,
+//           content: 'tessssst',
+//           additional: '',
+//           complete: false,
+//         },
+//         { itemId: 2, content: 'tessssst2', complete: false },
+//       ],
+//     },
+//     {
+//       stickyId: 2,
+//       name: 'GroceryList',
+//       items: [
+//         {
+//           itemId: 1,
+//           content: 'tessssst',
+//           additional: '',
+//           complete: false,
+//         },
+//         { itemId: 2, content: 'tessssst2', complete: false },
+//       ],
+//     },
+//   ],
+// };
