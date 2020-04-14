@@ -14,7 +14,7 @@ const getStickies =
 
 // add a new sticky note to the user dashboard. returns the id of the sticky that has been added
 const addSticky =
-  'INSERT INTO stickies (content, additional_content, board_id) VALUES ($1, $2, $3) RETURNING sticky_id';
+  'INSERT INTO stickies (name, board_id) VALUES ($1, $2) RETURNING sticky_id';
 
 // user can update the name of an existing sticky note
 const editSticky =
