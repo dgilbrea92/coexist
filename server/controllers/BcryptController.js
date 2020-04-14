@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 // const db = require('../models');
 
-const LoginController = {};
+const BcryptController = {};
 
-LoginController.signup = (req, res, next) => {
+BcryptController.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
     db.Board.create({
       board: req.body.board,
@@ -24,7 +24,7 @@ LoginController.signup = (req, res, next) => {
   return next();
 };
 
-LoginController.login = (req, res, next) => {
+BcryptController.login = (req, res, next) => {
   //check if
   db.Board.findOne({
     where: {
@@ -43,3 +43,5 @@ LoginController.login = (req, res, next) => {
     }
   });
 };
+
+module.exports = BcryptController;

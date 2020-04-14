@@ -2,29 +2,25 @@ const express = require('express');
 
 const apiRouter = express.Router();
 
-const DashboardController = require('./controllers/DashboardController');
+const BoardController = require('../controllers/BoardController');
 
 //get all stickies
-apiRouter.get('/stickies', DashboardController.getStickies, (req, res) => {
+apiRouter.get('/stickies', BoardController.getStickies, (req, res) => {
   //get all stickies for current board
   res.status(200).json(res.locals);
 });
 
 //post new sticky
-apiRouter.post('/stickies', DashboardController.postStickies, (req, res) => {
+apiRouter.post('/stickies', BoardController.postSticky, (req, res) => {
   res.status(200).json(res.locals);
 });
 
 //edit a sticky
-apiRouter.patch('/stickies', DashboardController.updateStickies, (req, res) => {
+apiRouter.patch('/stickies', BoardController.updateSticky, (req, res) => {
   res.status(200).json(res.locals);
 });
 
 //delete a sticky
-apiRouter.delete(
-  '/stickies',
-  DashboardController.deleteStickies,
-  (req, res) => {
-    res.status(200).json(res.locals);
-  }
-);
+apiRouter.delete('/stickies', BoardController.deleteSticky, (req, res) => {
+  res.status(200).json(res.locals);
+});
