@@ -9,6 +9,7 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
 import Typography from "@material-ui/core/Typography"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import Paper from "@material-ui/core/Paper"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,32 +23,33 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.fontWeightRegular,
   },
 }))
-
 const Stickies = (props) => {
   const classes = useStyles()
+  const stickyList = props.stickyData.items.map((data) => {
+    return (
+      <Paper elevation={0}>
+        <ExpansionPanel>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className={classes.heading}>{data.content}</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography>{data.additional}</Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      </Paper>
+    )
+  })
   return (
     <div>
       <Card>
         <CardActionArea>
-          <h2 className="container-header">To-Do</h2>
-          <CardContent>
-            <ExpansionPanel>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography className={classes.heading}>
-                  Grocery Shopping
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>Eggs, Bread, Weed, Shrooms,</Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          </CardContent>
+          <h2 className="container-header">{props.stickyData.name}</h2>
+          <CardContent>{stickyList}</CardContent>
         </CardActionArea>
-        <CardActions></CardActions>
       </Card>
     </div>
   )
