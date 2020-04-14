@@ -32,11 +32,7 @@ export default queries = {
   deleteSticky,
 };
 
-const stickiesCards = stickies.map(sticky => <Card>{sticky.name}</Card>);
-{
-  stickiesCards;
-} // in JSX return statement = [<Card>{sticky1}</Card>, <Card>{sticky2}</Card>]
-
+// sample of data being returned to
 const state = {
   stickies: [
     {
