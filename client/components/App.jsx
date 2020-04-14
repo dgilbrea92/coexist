@@ -1,3 +1,12 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React from 'react'
+import MainContainer from '../containers/StickiesContainer'
 
+const App = () => {
+  return (
+    <div>
+      <MainContainer />
+    </div>
+  )
+}
+
+export default App
