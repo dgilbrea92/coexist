@@ -1,3 +1,4 @@
 node_modules
 .env
 ./server/PG_URL.js
+PG_URL.js
