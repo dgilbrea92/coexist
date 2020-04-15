@@ -22,7 +22,6 @@ const Login = () => {
 
   const handleSignUp = e => {
     e.preventDefault();
-    console.log('signing up');
 
     const signUpInformation = {
       name: e.target.signUpBoard.value,
@@ -44,7 +43,6 @@ const Login = () => {
 
   const handleSignIn = e => {
     e.preventDefault();
-    console.log('signing in');
 
     const signInInformation = {
       username: e.target.signInUser.value,
