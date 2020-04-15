@@ -10,9 +10,9 @@ const checkUser = 'SELECT password FROM boards WHERE username = $1';
 const logIn =
   'SELECT name, id FROM boards WHERE username = $1 AND password = $2';
 
-// retrieve a users sticky notes and contents within sticky notes for the dashboard display
+// FIGURE OUT A QUERY TO RETURN ALL STICKIES AND THEIR ITEMS TOGETHER
 const getStickies =
-  'SELECT s.*, si.item_id, si.content, si.complete FROM stickies s LEFT JOIN sticky_item si ON s.sticky_id = si.sticky_id WHERE s.board_id=$1';
+  'SELECT s.sticky_id, s.name, s.board_id, si.item_id, si.content, si.additional, si.complete from stickies s LEFT JOIN sticky_item si ON s.sticky_id = si.sticky_id WHERE s.board_id = $1';
 
 // add a new sticky note to the user dashboard. returns the id of the sticky that has been added
 const addSticky =
