@@ -40,8 +40,8 @@ BoardController.updateSticky = (req, res, next) => {
     values: [req.body.name, req.body.sticky_id],
   })
     .then(result => {
-      console.log('success', result);
-      res.locals.sticky = result;
+      console.log('success', result.rows[0]);
+      res.locals.sticky = result.rows[0];
       return next();
     })
     .catch(err => {
@@ -57,7 +57,7 @@ BoardController.deleteSticky = (req, res, next) => {
     values: [req.body.sticky_id],
   })
     .then(result => {
-      console.log('success');
+      console.log('success', result.rows);
       return next();
     })
     .catch(err => {

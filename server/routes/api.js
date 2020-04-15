@@ -10,18 +10,17 @@ apiRouter.get('/stickies/:id', BoardController.getStickies, (req, res) => {
 
 //post new sticky
 apiRouter.post('/stickies', BoardController.postSticky, (req, res) => {
-  res.status(200).json(res.locals);
+  res.status(200).json(res.locals.stickyId);
 });
 
 //edit a sticky
 apiRouter.patch('/stickies', BoardController.updateSticky, (req, res) => {
-  res.status(200);
-  // .json(res.locals.sticky);
+  res.status(200).json(res.locals.sticky);
 });
 
 //delete a sticky
 apiRouter.delete('/stickies', BoardController.deleteSticky, (req, res) => {
-  res.status(200);
+  res.sendStatus(200);
 });
 
 // // uploading a file to category

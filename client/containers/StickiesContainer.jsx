@@ -11,9 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function getStickies() {}
-
-const MainContainer = () => {
+const StickiesContainer = () => {
   const [stickies, setStickies] = useState([]);
 
   useEffect(() => {
@@ -79,4 +77,4 @@ const MainContainer = () => {
   );
 };
 
-export default MainContainer;
+export default StickiesContainer;

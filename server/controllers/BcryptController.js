@@ -10,8 +10,9 @@ BcryptController.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
     db.query({
       text: queries.signUp,
-      values: [req.body.username, hash, req.body.boardname],
+      values: [req.body.username, hash, req.body.name],
     }).then(result => {
+      console.log(result.rows);
       res.locals.userInfo = result.rows;
       return next();
     });
@@ -36,6 +37,7 @@ BcryptController.login = (req, res, next) => {
               err,
           });
         } else if (result === true) {
+          console.log('logged in');
           // bcrypt populates result with a boolean based on if theres a match
           return next();
         }
