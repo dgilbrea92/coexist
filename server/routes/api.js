@@ -1,7 +1,5 @@
 const express = require('express');
-
 const apiRouter = express.Router();
-
 const BoardController = require('../controllers/BoardController');
 
 //get all stickies

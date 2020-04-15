@@ -16,10 +16,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
 //route handlers
-app.use('/api', apiRouter);
-app.use('/login', loginRouter);
+app.use('/api', apiRouter); // handling user data
+app.use('/auth', loginRouter); //login and signup
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -28,7 +27,6 @@ if (process.env.NODE_ENV === 'production') {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
-
 
 //catch all
 app.use('/', (req, res) => {

@@ -14,10 +14,14 @@ loginRouter.post(
   }
 );
 
-//login check
-loginRouter.get('/isUser', BcryptController.login, (req, res) => {
-  //check if board and login string exist
+loginRouter.post('/login', BcryptController.login, (req, res) => {
   res.redirect('/');
 });
+
+// //login check
+// loginRouter.get('/isUser', BcryptController.login, (req, res) => {
+//   //check if board and login string exist
+//   res.redirect('/');
+// });
 
 module.exports = loginRouter;

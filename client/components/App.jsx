@@ -1,12 +1,14 @@
 import React from 'react';
+import MainContainer from '../containers/StickiesContainer';
+import Welcome from './Welcome';
 import TopNav from './TopNav';
-import MainContainer from '../containers/StickiesContainer'
 
 export default function App() {
   return (
-    <div className="top-nav">
-      <TopNav />
-      <MainContainer />
+    <div className='top-nav'>
+      {/* <TopNav /> */}
+      {/*<MainContainer /> */}
+      <Welcome />
     </div>
-  )
+  );
 }
