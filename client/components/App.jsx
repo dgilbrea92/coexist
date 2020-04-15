@@ -5,6 +5,8 @@ import purple from "@material-ui/core/colors/purple"
 import green from "@material-ui/core/colors/green"
 import StickiesContainer from "../containers/StickiesContainer"
 
+import Welcome from "./Welcome"
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -37,6 +39,7 @@ export default function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <div className="top-nav">
+        <Welcome />
         <TopNav />
         <StickiesContainer />
       </div>

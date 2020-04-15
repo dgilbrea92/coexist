@@ -2,7 +2,9 @@
 // requires the name being assigned to the board, and its generated join code (UUID?)
 // query returns the information that was added to the DB + the id of the board
 const signUp =
-  'INSERT INTO boards (username, password, name) VALUES($1, $2, $3) RETURNING id, username, password, name';
+  'INSERT INTO boards (username, password, name) VALUES($1, $2, $3) RETURNING id, username, name';
+
+const checkUser = 'SELECT password FROM boards WHERE username = $1';
 
 // retrieve the information for the board of the specified join code
 const logIn =
@@ -25,6 +27,7 @@ const deleteSticky = 'DELETE FROM stickies WHERE sticky_id = $1';
 
 const queries = {
   signUp,
+  checkUser,
   logIn,
   getStickies,
   addSticky,
@@ -32,6 +35,7 @@ const queries = {
   deleteSticky,
 };
 module.exports = queries;
+
 // structure of data being returned to front end
 // const state = {
 //   stickies: [

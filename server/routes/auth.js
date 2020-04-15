@@ -1,10 +1,10 @@
 const express = require('express');
-const loginRouter = express.Router();
+const authRouter = express.Router();
 
 const BcryptController = require('../controllers/BcryptController');
 
 //signup and create new board
-loginRouter.post(
+authRouter.post(
   '/signup',
   BcryptController.signup,
   BcryptController.login,
@@ -14,10 +14,14 @@ loginRouter.post(
   }
 );
 
-//login check
-loginRouter.get('/isUser', BcryptController.login, (req, res) => {
-  //check if board and login string exist
+authRouter.post('/login', BcryptController.login, (req, res) => {
   res.redirect('/');
 });
 
-module.exports = loginRouter;
+// //login check
+// authRouter.get('/isUser', BcryptController.login, (req, res) => {
+//   //check if board and login string exist
+//   res.redirect('/');
+// });
+
+module.exports = authRouter;

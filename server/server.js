@@ -9,17 +9,16 @@ const PORT = 3000;
 
 //require in routers
 const apiRouter = require('./routes/api');
-const loginRouter = require('./routes/login');
+const authRouter = require('./routes/auth');
 
 //parse body and cookies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
 //route handlers
-app.use('/api', apiRouter);
-app.use('/login', loginRouter);
+app.use('/api', apiRouter); // handling user data
+app.use('/auth', authRouter); //login and signup
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -28,7 +27,6 @@ if (process.env.NODE_ENV === 'production') {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
-
 
 //catch all
 app.use('/', (req, res) => {
