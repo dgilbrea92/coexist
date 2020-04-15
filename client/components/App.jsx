@@ -1,10 +1,10 @@
 import React from 'react'
-import MainContainer from '../containers/StickiesContainer'
+import StickiesContainer from '../containers/StickiesContainer'
 
 const App = () => {
   return (
     <div>
-      <MainContainer />
+      <StickiesContainer />
     </div>
   )
 }

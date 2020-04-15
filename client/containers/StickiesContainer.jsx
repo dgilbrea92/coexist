@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const MainContainer = () => {
-  const [state, setState] = useState([
+const StickiesContainer = () => {
+  const [stickyNote, setStickyNote] = useState([
     {
       stickyId: 1,
       name: "To-Do List",
@@ -76,6 +76,10 @@ const MainContainer = () => {
       ],
     },
   ])
+  function passingStateToChild(newValue) {
+    setStickyNote(newValue);
+  }
+
   // const [grabData, setGrabData] = useState(false);
   // useEffect(() => {
   //   fetch(`/api/${id}`)
@@ -85,10 +89,11 @@ const MainContainer = () => {
   //       setState(data);
   //     });
   // }, [grabData]);
-  const stickyData = state.map((sticky) => {
+
+  const stickyData = stickyNote.map((sticky) => {
     return (
       <Grid item xs={12} sm={6} md={4} lg={3}>
-        <Stickies stickyData={sticky} />
+        <Stickies setStickyNote={passingStateToChild} stickyData={sticky} />
       </Grid>
     )
   })
@@ -96,7 +101,6 @@ const MainContainer = () => {
   const classes = useStyles()
   return (
     <div>
-      <h1 className="container-header">Board Name</h1>
       <Grid container spacing={3}>
         {stickyData}
       </Grid>
@@ -104,4 +108,4 @@ const MainContainer = () => {
   )
 }
 
-export default MainContainer
+export default StickiesContainer
