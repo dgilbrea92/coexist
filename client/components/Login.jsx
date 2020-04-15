@@ -29,7 +29,7 @@ const Login = () => {
       password: e.target.signUpPass.value,
     };
 
-    fetch('/signup', {
+    fetch('/api/signup', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -49,9 +49,7 @@ const Login = () => {
       password: e.target.signInPass.value,
     };
 
-    console.log(signInInformation);
-
-    fetch('/signin', {
+    fetch('api/signin', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',

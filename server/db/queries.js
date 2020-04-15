@@ -23,7 +23,7 @@ const editSticky =
 // user can delete a sticky from their dashboard
 const deleteSticky = 'DELETE FROM stickies WHERE sticky_id = $1';
 
-export default queries = {
+const queries = {
   signUp,
   logIn,
   getStickies,
@@ -31,7 +31,7 @@ export default queries = {
   editSticky,
   deleteSticky,
 };
-
+module.exports = queries;
 // structure of data being returned to front end
 // const state = {
 //   stickies: [
