@@ -1,72 +1,71 @@
 //database stuff
-const { Pool } = require('pd');
-
-const pool = new Pool({
-  //stuff
-});
-let boardName;
-let boardQuery;
-let stickyId;
-let newStickyQuery;
-let updateStickyQuery;
-let deleteStickyQuery;
+const db = require('../db/models');
+const queries = require('../db/queries');
 
 const BoardController = {};
 
 BoardController.getStickies = (req, res, next) => {
-  // boardName = req.body.board?
-  pool.query(boardQuery, (err, result) => {
-    if (err) {
-      console.log(err);
-      return next(err);
-    } else {
-      console.log(result.rows);
-      result.locals.board = result.rows;
+  db.query({ text: queries.getStickies, values: [req.body.boardId] })
+    .then(result => {
+      console.log(result);
+      // res.locals.stickies = result.rows[0];
       return next();
-    }
-  });
+    })
+    .catch(err => {
+      next({
+        log: 'Error in middleware BoardController.getStickies',
+      });
+    });
 };
 
 BoardController.postSticky = (req, res, next) => {
-  // boardName = req.body.board
-  pool.query(newStickyQuery, (err, result) => {
-    if (err) {
-      console.log(err);
-      return next(err);
-    } else {
-      console.log(result.rows);
-      result.locals.sticky = result.rows;
+  db.query({
+    text: queries.addSticky,
+    values: [req.body.name, req.body.boardId],
+  })
+    .then(result => {
+      console.log(result.rows[0]);
+      res.locals.stickyId = result.rows[0];
       return next();
-    }
-  });
+    })
+    .catch(err => {
+      next({
+        log: 'Error in middleware BoardController.postStickies' + err,
+      });
+    });
 };
 
 BoardController.updateSticky = (req, res, next) => {
-  // boardName = req.body.board
-  // stickyId = req.body.stickyId
-  pool.query(updateStickyQuery, (err, result) => {
-    if (err) {
-      console.log(err);
-      return next(err);
-    } else {
-      console.log(result.rows);
-      result.locals.sticky = result.rows;
+  db.query({
+    text: queries.editSticky,
+    values: [req.body.name, req.body.sticky_id],
+  })
+    .then(result => {
+      console.log('success', result);
+      res.locals.sticky = result;
       return next();
-    }
-  });
+    })
+    .catch(err => {
+      next({
+        log: 'Error in middleware BoardController.postStickies' + err,
+      });
+    });
 };
 
 BoardController.deleteSticky = (req, res, next) => {
-  // boardName = req.body.board
-  // stickyId = req.body.stickyId
-  pool.query(deleteStickyQuery, (err, result) => {
-    if (err) {
-      console.log(err);
-      return next(err);
-    } else {
-      console.log(result.rows);
-      result.locals.sticky = result.rows;
+  db.query({
+    text: queries.deleteSticky,
+    values: [req.body.sticky_id],
+  })
+    .then(result => {
+      console.log('success');
       return next();
-    }
-  });
+    })
+    .catch(err => {
+      next({
+        log: 'Error in middleware BoardController.postStickies' + err,
+      });
+    });
 };
+
+module.exports = BoardController;
