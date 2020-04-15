@@ -1,14 +1,14 @@
 import React from 'react';
 import MainContainer from '../containers/StickiesContainer';
 import Login from './Login';
+import TopNav from './TopNav';
 
-const App = () => {
+export default function App() {
   return (
-    <div>
+    <div className='top-nav'>
+      {/* <TopNav /> */}
+      {/*<MainContainer /> */}
       <Login />
-      {/* <MainContainer /> */}
     </div>
   );
-};
-
-export default App;
+}

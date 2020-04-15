@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import './styles/login.css';
 import { TextField } from '@material-ui/core';
-import { v4 as uuid } from 'uuid';
 
 // const useStyles = makeStyles({
 //   root: {
@@ -23,6 +22,7 @@ import { v4 as uuid } from 'uuid';
 const Login = () => {
   // const classes = useStyles();
   useEffect(() => {
+    // adds event listeners for sliding panel on login/signup
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');
@@ -36,8 +36,6 @@ const Login = () => {
     });
   });
 
-  console.log(uuid);
-
   return (
     <>
       <div className='container' id='container'>
@@ -48,7 +46,9 @@ const Login = () => {
             <input type='text' placeholder='Name' />
             <input type='email' placeholder='Email' />
             <input type='password' placeholder='Password' />
-            <button>Sign Up</button>
+            <Button id='primary-signup' variant='contained'>
+              Sign Up
+            </Button>
           </form>
         </div>
         <div className='form-container sign-in-container'>
@@ -57,8 +57,9 @@ const Login = () => {
             <span>Enter your email and password below</span>
             <input type='email' placeholder='Email' />
             <input type='password' placeholder='Password' />
-            {/* <a href='#'>Forgot your password?</a> FUNCTIONALITY PENDING */}
-            <button>Sign In</button>
+            <Button id='primary-signin' variant='contained'>
+              Sign In
+            </Button>
           </form>
         </div>
         <div className='overlay-container'>
@@ -66,9 +67,6 @@ const Login = () => {
             <div className='overlay-panel overlay-left'>
               <h1>Welcome Back</h1>
               <p>Sign back in using the button below</p>
-              {/* <button className='ghost' id='signIn'>
-                Sign In
-              </button> */}
               <Button className='ghost' id='signIn' variant='outlined'>
                 Sign In
               </Button>
@@ -76,9 +74,6 @@ const Login = () => {
             <div className='overlay-panel overlay-right'>
               <h1>Hey! First time here?</h1>
               <p>Click the button below to quickly get started</p>
-              {/* <button class='ghost' id='signUp'>
-                Create a Board
-              </button> */}
               <Button className='ghost' id='signUp' variant='outlined'>
                 Create a Board
               </Button>
