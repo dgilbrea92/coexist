@@ -22,6 +22,7 @@ const Login = () => {
 
   const handleSignUp = e => {
     e.preventDefault();
+    console.log('signing up');
 
     const signUpInformation = {
       name: e.target.signUpBoard.value,
@@ -29,7 +30,7 @@ const Login = () => {
       password: e.target.signUpPass.value,
     };
 
-    fetch('/api/signup', {
+    fetch('/auth/signup', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -43,13 +44,14 @@ const Login = () => {
 
   const handleSignIn = e => {
     e.preventDefault();
+    console.log('signing in');
 
     const signInInformation = {
       username: e.target.signInUser.value,
       password: e.target.signInPass.value,
     };
 
-    fetch('api/signin', {
+    fetch('/auth/login', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
