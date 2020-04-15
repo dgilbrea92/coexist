@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const StickiesContainer = () => {
-  const [stickyNote, setStickyNote] = useState([
+  const [stickies, setStickies] = useState([
     {
       stickyId: 1,
       name: "To-Do List",
@@ -24,62 +24,10 @@ const StickiesContainer = () => {
           additional: "100 pull-ups, 100push-ups, 200 sit-ups",
           completed: true,
         },
-        {
-          itemId: 1,
-          content: "teeeeeeest",
-          completed: true,
-        },
-        {
-          itemId: 1,
-          content: "teeeeeeest",
-          completed: true,
-        },
-        {
-          itemId: 1,
-          content: "teeeeeeest",
-          completed: true,
-        },
-      ],
-    },
-    {
-      stickyId: 2,
-      name: "Grocery",
-      items: [
-        {
-          itemId: 1,
-          content: "teeeedfghjnsfdeeest",
-          completed: true,
-        },
-      ],
-    },
-    {
-      stickyId: 3,
-      name: "party",
-      items: [
-        {
-          itemId: 1,
-          content: "teeeedgfhjddfgjseeest",
-          completed: true,
-        },
-      ],
-    },
-    {
-      stickyId: 3,
-      name: "party",
-      items: [
-        {
-          itemId: 1,
-          content: "teeeedgfhjddfgjseeest",
-
-          completed: true,
-        },
       ],
     },
   ])
-  function passingStateToChild(newValue) {
-    setStickyNote(newValue);
-  }
-
+  
   // const [grabData, setGrabData] = useState(false);
   // useEffect(() => {
   //   fetch(`/api/${id}`)
@@ -90,14 +38,13 @@ const StickiesContainer = () => {
   //     });
   // }, [grabData]);
 
-  const stickyData = stickyNote.map((sticky) => {
+  const stickyData = stickies.map((sticky) => {
     return (
       <Grid item xs={12} sm={6} md={4} lg={3}>
-        <Stickies setStickyNote={passingStateToChild} stickyData={sticky} />
+        <Stickies stickies={stickies} setStickies={setStickies} stickyData={sticky} />
       </Grid>
     )
   })
-
   const classes = useStyles()
   return (
     <div>
