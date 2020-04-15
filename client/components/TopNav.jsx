@@ -116,7 +116,9 @@ export default function TopNav() {
           <Typography variant="h6" noWrap>
             My Board
           </Typography>
+
         </Toolbar>
+
       </AppBar>
       <Drawer
         className={classes.drawer}
