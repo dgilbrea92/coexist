@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
-import Add from '@material-ui/icons/add';
+import Add from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import Portal from '@material-ui/core/Portal';
 import { v4 as uuid } from 'uuid';

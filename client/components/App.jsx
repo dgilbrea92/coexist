@@ -40,8 +40,8 @@ export default function App() {
     <MuiThemeProvider theme={theme}>
       <div className='top-nav'>
         <Welcome />
-        <TopNav />
-        <StickiesContainer />
+        {/* <TopNav /> */}
+        {/* <StickiesContainer /> */}
       </div>
     </MuiThemeProvider>
   );
