@@ -12,12 +12,14 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import NestedList from './NestedList';
+import TabPanel from './TabPanel';
+import AddIcon from '@material-ui/icons/Add';
+import TextField from '@material-ui/core/TextField';
+import Portal from '@material-ui/core/Portal';
+import FileUpload from './FileUpload';
+// import Modal from '@material-ui/core/Modal';
 
-const drawerWidth = 240;
+const drawerWidth = 960;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,6 +83,13 @@ export default function TopNav() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [categories, updateCategories] = React.useState(['Taxes', 'Medical']);
+  const [show, setShow] = React.useState(false);
+  const container = React.useRef(null);
+  const [category, setCategory] = React.useState('');
+
+  const updateCategory = (text) => {
+    setCategory(text);
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -92,6 +101,14 @@ export default function TopNav() {
 
   const addCategory = (newCategory) => {
     updateCategories([...categories, newCategory]);
+  }
+
+  const handleClick = () => {
+    setShow(!show);
+  };
+
+  const handleFile = () => {
+    console.log('Open File Modal');
   }
 
   return (
@@ -120,6 +137,7 @@ export default function TopNav() {
         </Toolbar>
 
       </AppBar>
+
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -130,22 +148,39 @@ export default function TopNav() {
         }}
       >
         <div className={classes.drawerHeader}>
+          <IconButton onClick={handleClick}><AddIcon /></IconButton>
+          <FileUpload categories={categories} />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
+
         </div>
         <Divider />
         <List>
-          {[...categories].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-          <ListItem button key='addCategory'>
-            <NestedList addCategory={addCategory} />
-          </ListItem>
+        {show ? (
+          <Portal container={container.current}>
+            <form className={classes.drawer} noValidate autoComplete="off"
+              onSubmit={(e) => {
+                e.preventDefault();
+                addCategory(category);
+                updateCategory('');
+                handleClick();
+              }}>
+              <TextField
+                id="category-input"
+                label=""
+                value={category}
+                onChange={(e) => updateCategory(e.target.value)}
+              />
+            </form>
+          </Portal>
+        ) : null}
+          <TabPanel categories={categories} container={container} />
+
         </List>
+
       </Drawer>
+
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,
