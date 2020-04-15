@@ -2,7 +2,7 @@
 // requires the name being assigned to the board, and its generated join code (UUID?)
 // query returns the information that was added to the DB + the id of the board
 const signUp =
-  'INSERT INTO boards (username, password, name) VALUES($1, $2, $3) RETURNING id, username, password, name';
+  'INSERT INTO boards (username, password, name) VALUES($1, $2, $3) RETURNING id, username, name';
 
 // retrieve the information for the board of the specified join code
 const logIn =
@@ -10,7 +10,7 @@ const logIn =
 
 // retrieve a users sticky notes and contents within sticky notes for the dashboard display
 const getStickies =
-  'SELECT s.*, si.item_id, si.content, si.complete FROM stickies s LEFT JOIN sticky_item si ON s.sticky_id = si.sticky_id';
+  'SELECT s.*, si.item_id, si.content, si.complete FROM stickies s LEFT JOIN sticky_item si ON s.sticky_id = si.sticky_id WHERE s.board_id=$1';
 
 // add a new sticky note to the user dashboard. returns the id of the sticky that has been added
 const addSticky =

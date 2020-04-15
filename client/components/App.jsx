@@ -1,12 +1,14 @@
-import React from 'react'
-import MainContainer from '../containers/StickiesContainer'
+import React from 'react';
+import MainContainer from '../containers/StickiesContainer';
+import Login from './Login';
 
 const App = () => {
   return (
     <div>
-      <MainContainer />
+      <Login />
+      {/* <MainContainer /> */}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
