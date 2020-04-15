@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
-import './styles/login.css';
+import './styles/welcome.css';
 
-const Login = () => {
+const Welcome = () => {
   useEffect(() => {
     // adds event listeners for sliding panel on login/signup
     const signUpButton = document.getElementById('signUp');
@@ -112,4 +112,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Welcome;

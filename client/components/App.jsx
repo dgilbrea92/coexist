@@ -1,6 +1,6 @@
 import React from 'react';
 import MainContainer from '../containers/StickiesContainer';
-import Login from './Login';
+import Welcome from './Welcome';
 import TopNav from './TopNav';
 
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
     <div className='top-nav'>
       {/* <TopNav /> */}
       {/*<MainContainer /> */}
-      <Login />
+      <Welcome />
     </div>
   );
 }
