@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
+import TopNav from './TopNav';
 import MainContainer from '../containers/StickiesContainer'
 
-const App = () => {
+export default function App() {
   return (
-    <div>
+    <div className="top-nav">
+      <TopNav />
       <MainContainer />
     </div>
   )
 }
-
-export default App

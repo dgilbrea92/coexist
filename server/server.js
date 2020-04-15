@@ -16,14 +16,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
 //route handlers
 app.use('/api', apiRouter);
 app.use('/login', loginRouter);
 
-//serve static files
+if (process.env.NODE_ENV === 'production') {
+  app.use('/build', express.static(path.join(__dirname, '../build')));
+}
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
+
 
 //catch all
 app.use('/', (req, res) => {
