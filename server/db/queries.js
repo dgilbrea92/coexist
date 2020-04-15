@@ -10,7 +10,7 @@ const logIn =
 
 // retrieve a users sticky notes and contents within sticky notes for the dashboard display
 const getStickies =
-  'SELECT s.*, si.item_id, si.content, si.complete FROM stickies s LEFT JOIN sticky_item si ON s.sticky_id = si.sticky_id';
+  'SELECT s.*, si.item_id, si.content, si.complete FROM stickies s LEFT JOIN sticky_item si ON s.sticky_id = si.sticky_id WHERE s.board_id=$1';
 
 // add a new sticky note to the user dashboard. returns the id of the sticky that has been added
 const addSticky =
@@ -23,7 +23,7 @@ const editSticky =
 // user can delete a sticky from their dashboard
 const deleteSticky = 'DELETE FROM stickies WHERE sticky_id = $1';
 
-export default queries = {
+const queries = {
   signUp,
   logIn,
   getStickies,
@@ -31,7 +31,7 @@ export default queries = {
   editSticky,
   deleteSticky,
 };
-
+module.exports = queries;
 // structure of data being returned to front end
 // const state = {
 //   stickies: [
