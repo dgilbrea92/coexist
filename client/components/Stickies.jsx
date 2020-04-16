@@ -18,6 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import Portal from '@material-ui/core/Portal';
 import { v4 as uuid } from 'uuid';
 import Button from '@material-ui/core/Button';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -37,6 +38,16 @@ const useStyles = makeStyles(theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
+  },
+  margin: {
+    width: '100%',
+    margin: 'auto',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+    '&:active': {
+      backgroundColor: 'transparent',
+    },
   },
 }));
 
@@ -59,6 +70,7 @@ const Stickies = props => {
   };
 
   const handleSubmit = () => {
+    // create item to store in state
     const newItem = {
       itemId: uuid(),
       content: content,
@@ -69,6 +81,7 @@ const Stickies = props => {
     // add item to the state array first
     stickyData.items.push(newItem);
 
+    // add stickyId on to object before sending to db
     newItem.stickyId = props.stickyData.stickyId;
 
     // then send insert query to db
@@ -118,8 +131,9 @@ const Stickies = props => {
             aria-label='delete'
             className={classes.margin}
             size='small'
+            disableRipple
           >
-            <Add />
+            <Add disableRipple />
           </IconButton>
           <CardContent ref={container}>
             {stickyList}
