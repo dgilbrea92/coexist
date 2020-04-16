@@ -1,11 +1,11 @@
-import React from 'react';
-import TopNav from './TopNav';
+import React, { useState } from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
 import StickiesContainer from '../containers/StickiesContainer';
-
 import Welcome from './Welcome';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import TopNav from './TopNav';
 
 const theme = createMuiTheme({
   palette: {
@@ -36,13 +36,25 @@ const theme = createMuiTheme({
 });
 
 export default function App() {
+  const [currentBoard, setCurrentBoard] = useState('');
+
   return (
     <MuiThemeProvider theme={theme}>
-      <div className='top-nav'>
-        {/* <Welcome /> */}
-        <TopNav />
-        <StickiesContainer />
-      </div>
+      <main>
+        <Router>
+          <Link to='/dashboard'>Dashboard</Link>
+          <Switch>
+            <Route exact path='/'>
+              <Welcome setCurrentBoard={setCurrentBoard} />
+            </Route>
+            <Route path='/dashboard'>
+              {' '}
+              <TopNav currentBoard={currentBoard} />
+              <StickiesContainer currentBoard={currentBoard} />{' '}
+            </Route>
+          </Switch>
+        </Router>
+      </main>
     </MuiThemeProvider>
   );
 }
