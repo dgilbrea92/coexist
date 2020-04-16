@@ -29,53 +29,51 @@ const StickiesContainer = () => {
   const [content, setContent] = React.useState('');
 
   useEffect(() => {
-    if (!Stickies[0]) {
-      fetch('/api/stickies/11')
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-          const newStickies = [];
-          // iterate over array of data returned from db
-          for (let i = 0; i < data.length; i++) {
-            // check if output array already contains the current stickyId object
-            const index = newStickies.findIndex(
-              sticky => sticky.stickyId === data[i].sticky_id
-            );
+    fetch('/api/stickies/11')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        const newStickies = [];
+        // iterate over array of data returned from db
+        for (let i = 0; i < data.length; i++) {
+          // check if output array already contains the current stickyId object
+          const index = newStickies.findIndex(
+            sticky => sticky.stickyId === data[i].sticky_id
+          );
 
-            // an index of -1 means no match was found
-            if (index === -1) {
-              // if no match: create a new object with itemid, name, items array filled with nested data
-              const pushObject = {
-                stickyId: data[i].sticky_id,
-                name: data[i].name,
-                items: [
-                  {
-                    // data to appear upon expansion of row
-                    itemId: data[i].item_id,
-                    content: data[i].content,
-                    additional: data[i].additional,
-                    completed: data[i].complete,
-                  },
-                ],
-              };
-              // push reformatted sticky data into array
-              newStickies.push(pushObject);
-            } else {
-              // if the sticky already exists, then just add a new object to its items array
-              const pushObject = {
-                itemId: data[i].item_id,
-                content: data[i].content,
-                additional: data[i].additional,
-                completed: data[i].complete,
-              };
+          // an index of -1 means no match was found
+          if (index === -1) {
+            // if no match: create a new object with itemid, name, items array filled with nested data
+            const pushObject = {
+              stickyId: data[i].sticky_id,
+              name: data[i].name,
+              items: [
+                {
+                  // data to appear upon expansion of row
+                  itemId: data[i].item_id,
+                  content: data[i].content,
+                  additional: data[i].additional,
+                  completed: data[i].complete,
+                },
+              ],
+            };
+            // push reformatted sticky data into array
+            newStickies.push(pushObject);
+          } else {
+            // if the sticky already exists, then just add a new object to its items array
+            const pushObject = {
+              itemId: data[i].item_id,
+              content: data[i].content,
+              additional: data[i].additional,
+              completed: data[i].complete,
+            };
 
-              newStickies[index].items.push(pushObject);
-            }
+            newStickies[index].items.push(pushObject);
           }
-          setStickies(newStickies);
-          console.log(stickies);
-        });
-    }
+        }
+        setStickies(newStickies);
+        console.log(stickies);
+      });
   }, []);
 
   const updateContent = text => {
