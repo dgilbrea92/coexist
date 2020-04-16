@@ -11,8 +11,8 @@ function TabPanel(props) {
 
   return (
     <Typography
-      component="div"
-      role="tabpanel"
+      component='div'
+      role='tabpanel'
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
@@ -36,7 +36,7 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     // backgroundColor: theme.palette.background.paper,
@@ -61,28 +61,31 @@ export default function VerticalTabs(props) {
   const tabPanels = [];
 
   for (let i = 0; i < categories.length; i++) {
-    tabs.push(<Tab label={categories[i]} {...a11yProps(i)} />);
-    tabPanels.push(<TabPanel value={value} index={i}>Your Content Here</TabPanel>);
+    tabs.push(<Tab key={`tab-${i}`} label={categories[i]} {...a11yProps(i)} />);
+    tabPanels.push(
+      <TabPanel key={`tab-panel-${i}`} value={value} index={i}>
+        Your Content Here
+      </TabPanel>
+    );
   }
 
   return (
-    <div className={classes.root} >
+    <div className={classes.root}>
       <Tabs
-        orientation="vertical"
-        variant="scrollable"
+        orientation='vertical'
+        variant='scrollable'
         value={value}
         onChange={handleChange}
-        aria-label="Vertical tabs example"
+        aria-label='Vertical tabs example'
         className={classes.tabs}
-        scrollButtons="auto"
+        scrollButtons='auto'
       >
         {tabs}
 
-        <Tab ref={container} ></Tab>
+        <Tab ref={container}></Tab>
       </Tabs>
 
       {tabPanels}
-
     </div>
   );
 }

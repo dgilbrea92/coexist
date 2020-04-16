@@ -68,4 +68,22 @@ BoardController.deleteSticky = (req, res, next) => {
     });
 };
 
+BoardController.addStickyItem = (req, res, next) => {
+  const { itemId, stickyId, content, additional, complete } = req.body;
+  console.log('before query', itemId, content, additional, complete);
+  db.query({
+    text: queries.addStickyItem,
+    values: [itemId, stickyId, content, additional, complete],
+  })
+    .then(result => {
+      console.log('success', result.rows);
+      return next();
+    })
+    .catch(err => {
+      next({
+        log: 'Error in middleware BoardController.addStickyItem' + err,
+      });
+    });
+};
+
 module.exports = BoardController;

@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Add from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import TopNav from '../components/TopNav';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -24,12 +25,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const StickiesContainer = () => {
+const StickiesContainer = props => {
+  console.log(props);
   const [stickies, setStickies] = useState([]);
   const [content, setContent] = React.useState('');
+  const { currentBoard } = props;
 
   useEffect(() => {
-    fetch('/api/stickies/11')
+    // retrieves stickies for currently signed in user
+    fetch(`/api/stickies/${currentBoard}`)
       .then(res => res.json())
       .then(data => {
         console.log(data);
@@ -85,8 +89,9 @@ const StickiesContainer = () => {
     // console.log('add!', content);
     const someData = {
       name: content,
-      boardId: 11,
+      boardId: currentBoard,
     };
+
     fetch('/api/stickies', {
       method: 'POST',
       headers: {
@@ -96,7 +101,6 @@ const StickiesContainer = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data, 'after fetch');
         let sticky = {
           sticky_id: data.sticky_id,
           name: content,
@@ -155,7 +159,7 @@ const StickiesContainer = () => {
       <Grid container spacing={3}>
         {stickies.map((sticky, idx) => {
           return (
-            <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Grid key={`grid-${idx}`} item xs={12} sm={6} md={4}>
               <Stickies key={`sticky-${idx}`} stickyData={sticky} />
             </Grid>
           );
