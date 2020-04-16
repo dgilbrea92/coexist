@@ -20,6 +20,13 @@ const theme = createMuiTheme({
       dark: green[700],
     },
   },
+  props: {
+    // Name of the component ⚛️
+    MuiButtonBase: {
+      // The properties to apply
+      disableRipple: true, // No more ripple, on the whole application 💣!
+    },
+  },
   typography: {
     useNextVariants: true,
   },
@@ -28,7 +35,7 @@ const theme = createMuiTheme({
       '@global': {
         body: {
           backgroundImage:
-            'url(https://images.pexels.com/photos/1931143/pexels-photo-1931143.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)',
+            'url(https://i.picsum.photos/id/756/1920/1080.jpg)',
         },
       },
     },
@@ -42,7 +49,7 @@ export default function App() {
     <MuiThemeProvider theme={theme}>
       <main>
         <Router>
-          <Link to='/dashboard'>Dashboard</Link>
+          {/* <Link to='/dashboard'>Dashboard</Link> */}
           <Switch>
             <Route exact path='/'>
               <Welcome setCurrentBoard={setCurrentBoard} />
