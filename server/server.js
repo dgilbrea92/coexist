@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('express-session');
-const sessionController = require('./controllers/sessionController');
 
 //listen on port 3000
 const PORT = 3000;
@@ -32,7 +31,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
 }
 
-app.get('/', sessionController.verify, (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
 

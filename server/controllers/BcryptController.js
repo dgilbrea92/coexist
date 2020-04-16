@@ -37,13 +37,8 @@ BcryptController.login = (req, res, next) => {
               err,
           });
         } else if (result === true) {
-<<<<<<< HEAD
-          //set session here
-          req.session.boardname = req.body.name;
-=======
           console.log('logged in');
           // bcrypt populates result with a boolean based on if theres a match
->>>>>>> staging
           return next();
         }
       });

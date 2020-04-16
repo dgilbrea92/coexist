@@ -1,10 +1,6 @@
 const express = require('express');
-<<<<<<< HEAD:server/routes/login.js
-const loginRouter = express.Router();
-=======
 const authRouter = express.Router();
 
->>>>>>> staging:server/routes/auth.js
 const BcryptController = require('../controllers/BcryptController');
 const sessionController = require('../controllers/sessionController');
 
@@ -19,7 +15,7 @@ authRouter.post(
   }
 );
 
-authRouter.post('/login', BcryptController.login, (req, res) => {
+authRouter.post('/login', BcryptController.login, sessionController.verify, (req, res) => {
   res.redirect('/');
 });
 
