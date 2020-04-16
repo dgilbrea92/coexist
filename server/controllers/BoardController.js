@@ -5,10 +5,8 @@ const queries = require('../db/queries');
 const BoardController = {};
 
 BoardController.getStickies = (req, res, next) => {
-  db.query({ text: queries.getStickies, values: [req.body.boardId] })
-    // { id: 11, username: 'Nicky', name: "Nicky's Board" } <--- Nicky's board with id of 11
+  db.query({ text: queries.getStickies, values: [req.params.id] })
     .then(result => {
-      console.log(result.rows);
       res.locals.stickies = result.rows;
       return next();
     })
@@ -25,7 +23,7 @@ BoardController.postSticky = (req, res, next) => {
     values: [req.body.name, req.body.boardId],
   })
     .then(result => {
-      console.log(result.rows[0]);
+      console.log('query results', result.rows);
       res.locals.stickyId = result.rows[0];
       return next();
     })

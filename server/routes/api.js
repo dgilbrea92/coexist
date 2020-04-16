@@ -2,8 +2,8 @@ const express = require('express');
 const apiRouter = express.Router();
 const BoardController = require('../controllers/BoardController');
 
-//get all stickies
-apiRouter.get('/stickies', BoardController.getStickies, (req, res) => {
+//get all stickies for a user board
+apiRouter.get('/stickies/:id', BoardController.getStickies, (req, res) => {
   //get all stickies for current board
   res.status(200).json(res.locals.stickies);
 });
@@ -22,5 +22,15 @@ apiRouter.patch('/stickies', BoardController.updateSticky, (req, res) => {
 apiRouter.delete('/stickies', BoardController.deleteSticky, (req, res) => {
   res.sendStatus(200);
 });
+
+// // uploading a file to category
+// apiRouter.post('/upload', FileController.uploadFile, (req, res) => {
+//   res.status(200);
+// });
+
+// // retrieving files for category
+// apiRouter.get('/files', FileController.getFiles, (req, res) => {
+//   res.status(200);
+// });
 
 module.exports = apiRouter;
