@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('express-session');
+const sessionController = require('./controllers/sessionController');
 
 //listen on port 3000
 const PORT = 3000;
@@ -30,6 +31,21 @@ app.use('/auth', authRouter); //login and signup
 if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
 }
+
+app.get('/checkLogin', sessionController.verify, (req, res) => {
+  if (req.session.boardId) {
+    res.locals.boardId = req.session.boardId
+    res.locals.authorized = true;
+    res.status(200).json(res.locals);
+  } else {
+    res.locals.authorized = false;
+    res.status(200).json(res.locals);
+  }
+})
+
+app.get('/dashboard', (req, res) => {
+  res.redirect('/');
+})
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));

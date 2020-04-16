@@ -9,14 +9,15 @@ authRouter.post(
   '/signup',
   BcryptController.signup,
   BcryptController.login,
+  sessionController.verify,
   (req, res) => {
     //on success of board creation, send back unique ID string
-    res.redirect('/');
+    res.json(res.locals);
   }
 );
 
 authRouter.post('/login', BcryptController.login, sessionController.verify, (req, res) => {
-  res.send(res.locals);
+  res.json(res.locals);
 });
 
 // //login check
