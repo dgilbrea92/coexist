@@ -32,8 +32,9 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   drawer: {
-    width: drawerWidth,
+    width: '100%',
     flexShrink: 0,
+    background: '#fafafa',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -48,6 +49,12 @@ const useStyles = makeStyles(theme => ({
     '&:active': {
       backgroundColor: 'transparent',
     },
+  },
+  card: {
+    background: '#fafafa',
+  },
+  inputs: {
+    width: '100%',
   },
 }));
 
@@ -124,7 +131,7 @@ const Stickies = props => {
   return (
     <div>
       <Card>
-        <CardActionArea>
+        <CardActionArea className={classes.card}>
           <h2 className='container-header'>{props.stickyData.name} </h2>
           <IconButton
             onClick={handleClick}
@@ -133,7 +140,7 @@ const Stickies = props => {
             size='small'
             disableRipple
           >
-            <Add disableRipple />
+            <Add />
           </IconButton>
           <CardContent ref={container}>
             {stickyList}
@@ -165,7 +172,6 @@ const Stickies = props => {
                   />
                   <Button
                     variant='outlined'
-                    color='gray'
                     type='submit'
                     style={{ margin: '2px' }}
                   >
