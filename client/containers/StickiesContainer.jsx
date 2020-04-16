@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Stickies from '../components/Stickies';
+import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Add from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -9,15 +13,26 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  root: {
+    '& > span': {
+      margin: theme.spacing(2),
+    },
+    '& > *': {
+      margin: theme.spacing(2),
+    },
+    width: '100%',
+  },
 }));
 
 const StickiesContainer = () => {
   const [stickies, setStickies] = useState([]);
+  const [content, setContent] = React.useState('');
 
   useEffect(() => {
-    fetch('/api/stickies/1')
+    fetch('/api/stickies/11')
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         const newStickies = [];
         // iterate over array of data returned from db
         for (let i = 0; i < data.length; i++) {
@@ -57,13 +72,86 @@ const StickiesContainer = () => {
           }
         }
         setStickies(newStickies);
+        console.log(stickies);
       });
   }, []);
+
+  const updateContent = text => {
+    setContent(text);
+    console.log(content);
+  };
+
+  const addSticky = () => {
+    // console.log('add!', content);
+    const someData = {
+      name: content,
+      boardId: 11,
+    };
+    fetch('/api/stickies', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(someData),
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data, 'after fetch');
+        let sticky = {
+          sticky_id: data.sticky_id,
+          name: content,
+          items: [
+            {
+              itemId: null,
+              content: null,
+              additional: null,
+              completed: null,
+            },
+          ],
+        };
+        setStickies([...stickies, sticky]);
+      });
+  };
 
   const classes = useStyles();
   return (
     <div>
       <h1 className='container-header'>Board Name</h1>
+
+      <form
+        style={{
+          width: '400px',
+          height: '100px',
+          justifyContent: 'center',
+          margin: '10px auto',
+        }}
+        onSubmit={e => {
+          e.preventDefault();
+          updateContent('');
+        }}
+      >
+        <span>
+          <input
+            style={{
+              width: '200px',
+              height: '50px',
+              marginRight: '5px',
+            }}
+            type='text'
+            onChange={e => updateContent(e.target.value)}
+          />
+          <button
+            style={{
+              height: '27px',
+              width: '80px',
+            }}
+            onClick={addSticky}
+          >
+            Add a sticky!
+          </button>
+        </span>
+      </form>
+
       <Grid container spacing={3}>
         {stickies.map((sticky, idx) => {
           return (
