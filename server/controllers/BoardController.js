@@ -7,6 +7,7 @@ const BoardController = {};
 BoardController.getStickies = (req, res, next) => {
   db.query({ text: queries.getStickies, values: [req.params.id] })
     .then(result => {
+      // console.log(result.row[0]);
       res.locals.stickies = result.rows;
       return next();
     })
