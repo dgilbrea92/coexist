@@ -5,6 +5,7 @@ import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
 import StickiesContainer from '../containers/StickiesContainer';
 import Welcome from './Welcome';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const theme = createMuiTheme({
   palette: {
@@ -37,11 +38,20 @@ const theme = createMuiTheme({
 export default function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      <div className='top-nav'>
-        <Welcome />
-        {/* <TopNav /> */}
-        {/* <StickiesContainer /> */}
-      </div>
+      <main>
+        <Router>
+          <Link to='/dashboard'>Dashboard</Link>
+          <Switch>
+            <Route exact path='/'>
+              <Welcome />
+            </Route>
+            <Route path='/dashboard'>
+              {' '}
+              <StickiesContainer />{' '}
+            </Route>
+          </Switch>
+        </Router>
+      </main>
     </MuiThemeProvider>
   );
 }

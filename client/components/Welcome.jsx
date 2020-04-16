@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import './styles/welcome.css';
+import { Redirect } from 'react-router-dom';
+import TopNav from './TopNav';
 
 const Welcome = () => {
+  const [verified, setVerified] = useState(false);
+
   useEffect(() => {
     // adds event listeners for sliding panel on login/signup
     const signUpButton = document.getElementById('signUp');
@@ -60,6 +64,10 @@ const Welcome = () => {
     // SERVER SHOULD BE RETURNING A USERID# THEN REROUTING
     // HOW ARE WE STORING THAT IN STATE?
   };
+
+  if (verified) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <>

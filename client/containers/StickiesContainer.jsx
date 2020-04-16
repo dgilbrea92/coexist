@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Stickies from '../components/Stickies';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import TopNav from '../components/TopNav';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -63,6 +64,7 @@ const StickiesContainer = () => {
   const classes = useStyles();
   return (
     <div>
+      <TopNav />
       <h1 className='container-header'>Board Name</h1>
       <Grid container spacing={3}>
         {stickies.map((sticky, idx) => {
