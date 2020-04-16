@@ -9,7 +9,7 @@ const PORT = 3000;
 
 //require in routers
 const apiRouter = require('./routes/api');
-const loginRouter = require('./routes/login');
+const authRouter = require('./routes/auth');
 
 //parse body and cookies
 app.use(express.json());
@@ -25,8 +25,8 @@ app.use(session({
 }));
 
 //route handlers
-app.use('/api', apiRouter);
-app.use('/login', loginRouter);
+app.use('/api', apiRouter); // handling user data
+app.use('/auth', authRouter); //login and signup
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.join(__dirname, '../build')));

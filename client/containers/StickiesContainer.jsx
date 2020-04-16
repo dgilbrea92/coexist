@@ -1,107 +1,168 @@
-import React, { useState } from "react"
-import Stickies from "../components/Stickies"
-import Grid from "@material-ui/core/Grid"
-import { makeStyles } from "@material-ui/core/styles"
+import React, { useState, useEffect } from 'react';
+import Stickies from '../components/Stickies';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Add from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
   },
-}))
+  root: {
+    '& > span': {
+      margin: theme.spacing(2),
+    },
+    '& > *': {
+      margin: theme.spacing(2),
+    },
+    width: '100%',
+  },
+}));
 
-const MainContainer = () => {
-  const [state, setState] = useState([
-    {
-      stickyId: 1,
-      name: "To-Do List",
-      items: [
-        {
-          itemId: 1,
-          content: "Workout",
-          additional: "100 pull-ups, 100push-ups, 200 sit-ups",
-          completed: true,
-        },
-        {
-          itemId: 1,
-          content: "teeeeeeest",
-          completed: true,
-        },
-        {
-          itemId: 1,
-          content: "teeeeeeest",
-          completed: true,
-        },
-        {
-          itemId: 1,
-          content: "teeeeeeest",
-          completed: true,
-        },
-      ],
-    },
-    {
-      stickyId: 2,
-      name: "Grocery",
-      items: [
-        {
-          itemId: 1,
-          content: "teeeedfghjnsfdeeest",
-          completed: true,
-        },
-      ],
-    },
-    {
-      stickyId: 3,
-      name: "party",
-      items: [
-        {
-          itemId: 1,
-          content: "teeeedgfhjddfgjseeest",
-          completed: true,
-        },
-      ],
-    },
-    {
-      stickyId: 3,
-      name: "party",
-      items: [
-        {
-          itemId: 1,
-          content: "teeeedgfhjddfgjseeest",
+const StickiesContainer = () => {
+  const [stickies, setStickies] = useState([]);
+  const [content, setContent] = React.useState('');
 
-          completed: true,
-        },
-      ],
-    },
-  ])
-  // const [grabData, setGrabData] = useState(false);
-  // useEffect(() => {
-  //   fetch(`/api/${id}`)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       // console.log(data);
-  //       setState(data);
-  //     });
-  // }, [grabData]);
-  const stickyData = state.map((sticky) => {
-    return (
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <Stickies stickyData={sticky} />
-      </Grid>
-    )
-  })
+  useEffect(() => {
+    fetch('/api/stickies/11')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        const newStickies = [];
+        // iterate over array of data returned from db
+        for (let i = 0; i < data.length; i++) {
+          // check if output array already contains the current stickyId object
+          const index = newStickies.findIndex(
+            sticky => sticky.stickyId === data[i].sticky_id
+          );
 
-  const classes = useStyles()
+          // an index of -1 means no match was found
+          if (index === -1) {
+            // if no match: create a new object with itemid, name, items array filled with nested data
+            const pushObject = {
+              stickyId: data[i].sticky_id,
+              name: data[i].name,
+              items: [
+                {
+                  // data to appear upon expansion of row
+                  itemId: data[i].item_id,
+                  content: data[i].content,
+                  additional: data[i].additional,
+                  completed: data[i].complete,
+                },
+              ],
+            };
+            // push reformatted sticky data into array
+            newStickies.push(pushObject);
+          } else {
+            // if the sticky already exists, then just add a new object to its items array
+            const pushObject = {
+              itemId: data[i].item_id,
+              content: data[i].content,
+              additional: data[i].additional,
+              completed: data[i].complete,
+            };
+
+            newStickies[index].items.push(pushObject);
+          }
+        }
+        setStickies(newStickies);
+        console.log(stickies);
+      });
+  }, []);
+
+  const updateContent = text => {
+    setContent(text);
+    console.log(content);
+  };
+
+  const addSticky = () => {
+    // console.log('add!', content);
+    const someData = {
+      name: content,
+      boardId: 11,
+    };
+    fetch('/api/stickies', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(someData),
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data, 'after fetch');
+        let sticky = {
+          sticky_id: data.sticky_id,
+          name: content,
+          items: [
+            {
+              itemId: null,
+              content: null,
+              additional: null,
+              completed: null,
+            },
+          ],
+        };
+        setStickies([...stickies, sticky]);
+      });
+  };
+
+  const classes = useStyles();
   return (
     <div>
-      <h1 className="container-header">Board Name</h1>
+      <h1 className='container-header'>Board Name</h1>
+
+      <form
+        style={{
+          width: '400px',
+          height: '100px',
+          justifyContent: 'center',
+          margin: '10px auto',
+        }}
+        onSubmit={e => {
+          e.preventDefault();
+          updateContent('');
+        }}
+      >
+        <span>
+          <input
+            style={{
+              width: '200px',
+              height: '50px',
+              marginRight: '5px',
+            }}
+            type='text'
+            onChange={e => updateContent(e.target.value)}
+          />
+          <button
+            style={{
+              height: '27px',
+              width: '80px',
+            }}
+            onClick={addSticky}
+          >
+            Add a sticky!
+          </button>
+        </span>
+      </form>
+
       <Grid container spacing={3}>
-        {stickyData}
+        {stickies.map((sticky, idx) => {
+          return (
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Stickies key={`sticky-${idx}`} stickyData={sticky} />
+            </Grid>
+          );
+        })}
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-export default MainContainer
+export default StickiesContainer;

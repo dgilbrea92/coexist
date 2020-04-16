@@ -5,10 +5,10 @@ const queries = require('../db/queries');
 const BoardController = {};
 
 BoardController.getStickies = (req, res, next) => {
-  db.query({ text: queries.getStickies, values: [req.body.boardId] })
+  db.query({ text: queries.getStickies, values: [req.params.id] })
     .then(result => {
-      console.log(result);
-      // res.locals.stickies = result.rows[0];
+      // console.log(result.row[0]);
+      res.locals.stickies = result.rows;
       return next();
     })
     .catch(err => {
@@ -24,7 +24,7 @@ BoardController.postSticky = (req, res, next) => {
     values: [req.body.name, req.body.boardId],
   })
     .then(result => {
-      console.log(result.rows[0]);
+      console.log('query results', result.rows);
       res.locals.stickyId = result.rows[0];
       return next();
     })
@@ -41,8 +41,8 @@ BoardController.updateSticky = (req, res, next) => {
     values: [req.body.name, req.body.sticky_id],
   })
     .then(result => {
-      console.log('success', result);
-      res.locals.sticky = result;
+      console.log('success', result.rows[0]);
+      res.locals.sticky = result.rows[0];
       return next();
     })
     .catch(err => {
@@ -58,7 +58,7 @@ BoardController.deleteSticky = (req, res, next) => {
     values: [req.body.sticky_id],
   })
     .then(result => {
-      console.log('success');
+      console.log('success', result.rows);
       return next();
     })
     .catch(err => {

@@ -1,5 +1,8 @@
 node_modules
 .env
+<<<<<<< HEAD
 ./server/PG_URL.js
 package-lock.json
+=======
+>>>>>>> staging
 PG_URL.js

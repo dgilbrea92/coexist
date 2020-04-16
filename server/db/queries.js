@@ -2,15 +2,17 @@
 // requires the name being assigned to the board, and its generated join code (UUID?)
 // query returns the information that was added to the DB + the id of the board
 const signUp =
-  'INSERT INTO boards (username, password, name) VALUES($1, $2, $3) RETURNING id, username, password, name';
+  'INSERT INTO boards (username, password, name) VALUES($1, $2, $3) RETURNING id, username, name';
+
+const checkUser = 'SELECT password FROM boards WHERE username = $1';
 
 // retrieve the information for the board of the specified join code
 const logIn =
   'SELECT name, id FROM boards WHERE username = $1 AND password = $2';
 
-// retrieve a users sticky notes and contents within sticky notes for the dashboard display
+// FIGURE OUT A QUERY TO RETURN ALL STICKIES AND THEIR ITEMS TOGETHER
 const getStickies =
-  'SELECT s.*, si.item_id, si.content, si.complete FROM stickies s LEFT JOIN sticky_item si ON s.sticky_id = si.sticky_id WHERE s.board_id=$1';
+  'SELECT s.sticky_id, s.name, s.board_id, si.item_id, si.content, si.additional, si.complete from stickies s LEFT JOIN sticky_item si ON s.sticky_id = si.sticky_id WHERE s.board_id = $1';
 
 // add a new sticky note to the user dashboard. returns the id of the sticky that has been added
 const addSticky =
@@ -25,6 +27,7 @@ const deleteSticky = 'DELETE FROM stickies WHERE sticky_id = $1';
 
 const queries = {
   signUp,
+  checkUser,
   logIn,
   getStickies,
   addSticky,
@@ -32,6 +35,7 @@ const queries = {
   deleteSticky,
 };
 module.exports = queries;
+
 // structure of data being returned to front end
 // const state = {
 //   stickies: [
