@@ -57,12 +57,27 @@ const Stickies = props => {
   const handleClick = () => {
     setShow(!show);
   };
+
   const handleSubmit = () => {
-    stickyData.items.push({
+    const newItem = {
       itemId: uuid(),
       content: content,
       additional: additional,
-      completed: false,
+      complete: false,
+    };
+
+    // add item to the state array first
+    stickyData.items.push(newItem);
+
+    newItem.stickyId = props.stickyData.stickyId;
+
+    // then send insert query to db
+    fetch('/api/stickies/addstickyitem', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(newItem),
     });
   };
 

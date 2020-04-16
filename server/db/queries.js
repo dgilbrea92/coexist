@@ -25,6 +25,9 @@ const editSticky =
 // user can delete a sticky from their dashboard
 const deleteSticky = 'DELETE FROM stickies WHERE sticky_id = $1';
 
+const addStickyItem =
+  'INSERT INTO sticky_item(item_id, sticky_id, content, additional, complete) VALUES ($1, $2, $3, $4, $5)';
+
 const queries = {
   signUp,
   checkUser,
@@ -33,6 +36,7 @@ const queries = {
   addSticky,
   editSticky,
   deleteSticky,
+  addStickyItem,
 };
 module.exports = queries;
 
