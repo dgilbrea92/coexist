@@ -25,12 +25,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const StickiesContainer = () => {
+const StickiesContainer = props => {
+  console.log(props);
   const [stickies, setStickies] = useState([]);
   const [content, setContent] = React.useState('');
+  const { currentBoard } = props;
 
   useEffect(() => {
-    fetch('/api/stickies/11')
+    // retrieves stickies for currently signed in user
+    fetch(`/api/stickies/${currentBoard}`)
       .then(res => res.json())
       .then(data => {
         console.log(data);
@@ -86,8 +89,9 @@ const StickiesContainer = () => {
     // console.log('add!', content);
     const someData = {
       name: content,
-      boardId: 11,
+      boardId: currentBoard,
     };
+
     fetch('/api/stickies', {
       method: 'POST',
       headers: {
@@ -97,7 +101,6 @@ const StickiesContainer = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data, 'after fetch');
         let sticky = {
           sticky_id: data.sticky_id,
           name: content,
@@ -117,7 +120,6 @@ const StickiesContainer = () => {
   const classes = useStyles();
   return (
     <div>
-      <TopNav />
       <h1 className='container-header'>Board Name</h1>
 
       <form

@@ -15,7 +15,7 @@ authRouter.post(
 );
 
 authRouter.post('/login', BcryptController.login, (req, res) => {
-  res.redirect('/');
+  res.send(res.locals);
 });
 
 // //login check

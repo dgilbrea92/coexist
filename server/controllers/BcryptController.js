@@ -40,6 +40,7 @@ BcryptController.login = (req, res, next) => {
           console.log('logged in');
           // storing the users boardid for sending back to front end queries
           res.locals.boardId = user.rows[0].id;
+          res.locals.authorized = true;
           // bcrypt populates result with a boolean based on if theres a match
           return next();
         }

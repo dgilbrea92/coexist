@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import './styles/welcome.css';
 import { Redirect } from 'react-router-dom';
-import TopNav from './TopNav';
 
-const Welcome = () => {
+const Welcome = props => {
   const [verified, setVerified] = useState(false);
+  const { setCurrentBoard, currentBoard } = props;
 
   useEffect(() => {
     // adds event listeners for sliding panel on login/signup
@@ -20,7 +20,15 @@ const Welcome = () => {
     signInButton.addEventListener('click', () => {
       container.classList.remove('right-panel-active');
     });
-  });
+    return () => {
+      signUpButton.removeEventListener('click', () => {
+        container.classList.add('right-panel-active');
+      });
+      signInButton.removeEventListener('click', () => {
+        container.classList.remove('right-panel-active');
+      });
+    };
+  }, []);
 
   // handling of signup
 
@@ -59,7 +67,17 @@ const Welcome = () => {
         'Content-type': 'application/json',
       },
       body: JSON.stringify(signInInformation),
-    }).then(res => res.json());
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.boardId) {
+          setCurrentBoard(data.boardId);
+        }
+
+        if (data.authorized) {
+          setVerified(true);
+        }
+      });
     // TO DO: HOW ARE WE HANDLING RESPONSE BACK FROM SERVER
     // SERVER SHOULD BE RETURNING A USERID# THEN REROUTING
     // HOW ARE WE STORING THAT IN STATE?
