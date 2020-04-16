@@ -32,7 +32,7 @@ const StickiesContainer = () => {
     fetch('/api/stickies/11')
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data, 'data');
         const newStickies = [];
         // iterate over array of data returned from db
         for (let i = 0; i < data.length; i++) {
@@ -72,17 +72,17 @@ const StickiesContainer = () => {
           }
         }
         setStickies(newStickies);
-        console.log(stickies);
       });
   }, []);
 
   const updateContent = text => {
     setContent(text);
-    console.log(content);
+    // console.log(content, 'content');
   };
 
   const addSticky = () => {
     // console.log('add!', content);
+    if (content === '') return;
     const someData = {
       name: content,
       boardId: 11,
@@ -96,7 +96,7 @@ const StickiesContainer = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data, 'after fetch');
+        // console.log(data, 'after fetch');
         let sticky = {
           sticky_id: data.sticky_id,
           name: content,
@@ -137,6 +137,7 @@ const StickiesContainer = () => {
               height: '50px',
               marginRight: '5px',
             }}
+            value={content}
             type='text'
             onChange={e => updateContent(e.target.value)}
           />
