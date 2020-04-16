@@ -6,12 +6,14 @@ import TextField from '@material-ui/core/TextField';
 import Add from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import TopNav from '../components/TopNav';
 
 const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+    width: '100%',
   },
   root: {
     '& > span': {
@@ -20,16 +22,18 @@ const useStyles = makeStyles(theme => ({
     '& > *': {
       margin: theme.spacing(2),
     },
-    width: '100%',
   },
 }));
 
-const StickiesContainer = () => {
+const StickiesContainer = props => {
+  console.log(props);
   const [stickies, setStickies] = useState([]);
   const [content, setContent] = React.useState('');
+  const { currentBoard } = props;
 
   useEffect(() => {
-    fetch('/api/stickies/11')
+    // retrieves stickies for currently signed in user
+    fetch(`/api/stickies/${currentBoard}`)
       .then(res => res.json())
       .then(data => {
         // console.log(data, 'data');
@@ -73,7 +77,7 @@ const StickiesContainer = () => {
         }
         setStickies(newStickies);
       });
-  }, []);
+  }, [currentBoard]);
 
   const updateContent = text => {
     setContent(text);
@@ -81,12 +85,15 @@ const StickiesContainer = () => {
   };
 
   const addSticky = () => {
-    // console.log('add!', content);
-    if (content === '') return;
+    if (!content) {
+      return;
+    }
+
     const someData = {
       name: content,
-      boardId: 11,
+      boardId: currentBoard,
     };
+
     fetch('/api/stickies', {
       method: 'POST',
       headers: {
@@ -96,7 +103,6 @@ const StickiesContainer = () => {
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data, 'after fetch');
         let sticky = {
           sticky_id: data.sticky_id,
           name: content,
@@ -115,9 +121,7 @@ const StickiesContainer = () => {
 
   const classes = useStyles();
   return (
-    <div>
-      <h1 className='container-header'>Board Name</h1>
-
+    <div className={classes.root}>
       <form
         style={{
           width: '400px',
@@ -141,7 +145,7 @@ const StickiesContainer = () => {
             type='text'
             onChange={e => updateContent(e.target.value)}
           />
-          <button
+          <Button
             style={{
               height: '27px',
               width: '80px',
@@ -149,14 +153,14 @@ const StickiesContainer = () => {
             onClick={addSticky}
           >
             Add a sticky!
-          </button>
+          </Button>
         </span>
       </form>
 
       <Grid container spacing={3}>
         {stickies.map((sticky, idx) => {
           return (
-            <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Grid key={`grid-${idx}`} item xs={12} sm={6} md={4}>
               <Stickies key={`sticky-${idx}`} stickyData={sticky} />
             </Grid>
           );

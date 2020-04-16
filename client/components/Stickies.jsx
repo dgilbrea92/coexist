@@ -18,6 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import Portal from '@material-ui/core/Portal';
 import { v4 as uuid } from 'uuid';
 import Button from '@material-ui/core/Button';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -31,12 +32,32 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   drawer: {
-    width: drawerWidth,
+    width: '100%',
     flexShrink: 0,
+    background: '#fafafa',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
+  },
+  margin: {
+    width: '100%',
+    margin: 'auto',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+    '&:active': {
+      backgroundColor: 'transparent',
+    },
+  },
+  card: {
+    background: '#fafafa',
+  },
+  inputs: {
+    width: '100%',
+  },
+  panel: {
+    marginBottom: '5px',
   },
 }));
 
@@ -57,12 +78,29 @@ const Stickies = props => {
   const handleClick = () => {
     setShow(!show);
   };
+
   const handleSubmit = () => {
-    stickyData.items.push({
+    // create item to store in state
+    const newItem = {
       itemId: uuid(),
       content: content,
       additional: additional,
-      completed: false,
+      complete: false,
+    };
+
+    // add item to the state array first
+    stickyData.items.push(newItem);
+
+    // add stickyId on to object before sending to db
+    newItem.stickyId = props.stickyData.stickyId;
+
+    // then send insert query to db
+    fetch('/api/stickies/addstickyitem', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(newItem),
     });
   };
 
@@ -70,7 +108,7 @@ const Stickies = props => {
   const stickyList = props.stickyData.items.map((data, idx) => {
     return (
       <Paper key={`item-${idx}`} elevation={0}>
-        <ExpansionPanel>
+        <ExpansionPanel classes={classes.panel}>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-label='Expand'
@@ -96,18 +134,16 @@ const Stickies = props => {
   return (
     <div>
       <Card>
-        <CardActionArea>
+        <CardActionArea className={classes.card}>
           <h2 className='container-header'>{props.stickyData.name} </h2>
-          <IconButton
+          <Add
             onClick={handleClick}
             aria-label='delete'
             className={classes.margin}
             size='small'
-          >
-            <Add />
-          </IconButton>
+          />
           <CardContent ref={container}>
-            {stickyList}
+            {stickyList.length > 0 ? stickyList : null}
             {show ? (
               <Portal container={container.current}>
                 <form
@@ -124,19 +160,18 @@ const Stickies = props => {
                 >
                   <TextField
                     id='content-input'
-                    label=''
+                    label='Item text'
                     value={content}
                     onChange={e => updateContent(e.target.value)}
                   />
                   <TextField
                     id='additional-input'
-                    label=''
+                    label='Add details here'
                     value={additional}
                     onChange={e => updateAdditional(e.target.value)}
                   />
                   <Button
                     variant='outlined'
-                    color='gray'
                     type='submit'
                     style={{ margin: '2px' }}
                   >

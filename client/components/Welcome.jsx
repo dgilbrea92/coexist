@@ -1,9 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import './styles/welcome.css';
+import { Redirect } from 'react-router-dom';
 
-const Welcome = () => {
+const Welcome = props => {
+  const [verified, setVerified] = useState(false);
+  const { setCurrentBoard } = props;
+
   useEffect(() => {
+    // check if user already has a session
+    fetch('/checkLogin')
+    .then(resp => resp.json())
+    .then(data => {
+      console.log('DATA: ', data)
+      // if user session has boardid, re-route them to /dashboard
+      if (data.authorized === true) {
+        setVerified(true);
+        setCurrentBoard(data.boardId);
+      }
+    })
+    .catch(err => console.log(err));
     // adds event listeners for sliding panel on login/signup
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
@@ -16,7 +32,15 @@ const Welcome = () => {
     signInButton.addEventListener('click', () => {
       container.classList.remove('right-panel-active');
     });
-  });
+    return () => {
+      signUpButton.removeEventListener('click', () => {
+        container.classList.add('right-panel-active');
+      });
+      signInButton.removeEventListener('click', () => {
+        container.classList.remove('right-panel-active');
+      });
+    };
+  }, []);
 
   // handling of signup
 
@@ -35,7 +59,18 @@ const Welcome = () => {
         'Content-type': 'application/json',
       },
       body: JSON.stringify(signUpInformation),
-    }).then(res => res.json());
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      if (data.boardId) {
+        setCurrentBoard(data.boardId);
+      }
+
+      if (data.authorized) {
+        setVerified(true);
+      }
+    });
     // TO DO: HOW ARE WE HANDLING RESPONSE BACK FROM SERVER
     // SERVER SHOULD BE RETURNING A USERID# THEN REROUTING
     // HOW ARE WE STORING THAT IN STATE?
@@ -55,11 +90,25 @@ const Welcome = () => {
         'Content-type': 'application/json',
       },
       body: JSON.stringify(signInInformation),
-    }).then(res => res.json());
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.boardId) {
+          setCurrentBoard(data.boardId);
+        }
+
+        if (data.authorized) {
+          setVerified(true);
+        }
+      });
     // TO DO: HOW ARE WE HANDLING RESPONSE BACK FROM SERVER
     // SERVER SHOULD BE RETURNING A USERID# THEN REROUTING
     // HOW ARE WE STORING THAT IN STATE?
   };
+
+  if (verified) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <>
