@@ -33,6 +33,7 @@ BcryptController.login = (req, res, next) => {
           });
         } else if (result === true) {
           //set session here
+          req.session.boardname = req.body.name;
           return next();
         }
       });

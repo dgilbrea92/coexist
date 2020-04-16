@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const sessionController = require('./controllers/sessionController');
 
 //listen on port 3000
 const PORT = 3000;
@@ -12,10 +12,17 @@ const apiRouter = require('./routes/api');
 const loginRouter = require('./routes/login');
 
 //parse body and cookies
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// generate session and add to session table
+app.use(session({
+  secret: 'keyboard cat',
+  cookie: {},
+  resave: false,
+  saveUninitialized: true,
+  name: 'board.id'
+}));
 
 //route handlers
 app.use('/api', apiRouter);
@@ -25,10 +32,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
 }
 
-app.get('/', (req, res) => {
+app.get('/', sessionController.verify, (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
-
 
 //catch all
 app.use('/', (req, res) => {

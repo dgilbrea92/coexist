@@ -1,7 +1,7 @@
 const express = require('express');
 const loginRouter = express.Router();
-
 const BcryptController = require('../controllers/BcryptController');
+const sessionController = require('../controllers/sessionController');
 
 //signup and create new board
 loginRouter.post(
