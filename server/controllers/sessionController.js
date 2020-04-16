@@ -1,7 +1,7 @@
 const sessionController = {};
 
 sessionController.verify = (req, res, next) => {
-  console.log(req.session);
+  req.session.boardId =
   next();
 }
 
