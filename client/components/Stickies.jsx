@@ -56,6 +56,9 @@ const useStyles = makeStyles(theme => ({
   inputs: {
     width: '100%',
   },
+  panel: {
+    marginBottom: '5px',
+  },
 }));
 
 const Stickies = props => {
@@ -105,7 +108,7 @@ const Stickies = props => {
   const stickyList = props.stickyData.items.map((data, idx) => {
     return (
       <Paper key={`item-${idx}`} elevation={0}>
-        <ExpansionPanel>
+        <ExpansionPanel classes={classes.panel}>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-label='Expand'
@@ -133,15 +136,12 @@ const Stickies = props => {
       <Card>
         <CardActionArea className={classes.card}>
           <h2 className='container-header'>{props.stickyData.name} </h2>
-          <IconButton
+          <Add
             onClick={handleClick}
             aria-label='delete'
             className={classes.margin}
             size='small'
-            disableRipple
-          >
-            <Add />
-          </IconButton>
+          />
           <CardContent ref={container}>
             {stickyList}
             {show ? (

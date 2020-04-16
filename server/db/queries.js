@@ -4,7 +4,7 @@
 const signUp =
   'INSERT INTO boards (username, password, name) VALUES($1, $2, $3) RETURNING id, username, name';
 
-const checkUser = 'SELECT password FROM boards WHERE username = $1';
+const checkUser = 'SELECT id, password FROM boards WHERE username = $1';
 
 // retrieve the information for the board of the specified join code
 const logIn =
