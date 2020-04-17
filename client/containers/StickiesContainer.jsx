@@ -50,7 +50,7 @@ const StickiesContainer = props => {
     fetch(`/api/stickies/${currentBoard}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data, 'data');
         const newStickies = [];
         // iterate over array of data returned from db
         for (let i = 0; i < data.length; i++) {
@@ -90,13 +90,12 @@ const StickiesContainer = props => {
           }
         }
         setStickies(newStickies);
-        console.log(stickies);
       });
   }, [currentBoard]);
 
   const updateContent = text => {
     setContent(text);
-    console.log(content);
+    // console.log(content, 'content');
   };
 
   const addSticky = () => {
